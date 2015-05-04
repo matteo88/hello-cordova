@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World !</title>
+        <script type="text/javascript" language="JavaScript">
+            function createNewName()
+            {
+                var nameDictionary = {};
+             
+                // prompt the user to enter to-do
+                var name = prompt("Insert your name","");
+                if (name != null)
+                {
+                    if (name == "")
+                    {
+                        alert("name can't be empty!");
+                    }
+                    else
+                    {
+                        // append the new name with the table
+                        nameDictionary = { check : 0 , text : name};
+                        addTableRow(nameDictionary, false);
+                    }
+                }
+             
+            }
+
+            var rowID = 0;
+            function addTableRow(nameDictionary, appIsLoading)
+            {
+                rowID +=1;
+                var table = document.getElementById("dataTable");
+                var rowCount = table.rows.length;
+                var row = table.insertRow(rowCount);
+             
+                // create the textbox
+                var cell1 = row.insertCell(0);
+                var element1 = document.createElement("input");
+                element1.type = "text";
+                element1.name = "txtbox[]";
+                element1.size = 16;
+                element1.id = "text" + rowID;
+                element1.value = nameDictionary["text"];
+                element1.setAttribute("onchange", "saveNameList()");
+                cell1.appendChild(element1);
+             
+                // create the delete button
+                var cell2 = row.insertCell(1);
+                var element2 = document.createElement("input");
+                element2.type = "button";
+                element2.value = "Delete";
+                element2.setAttribute("onclick", "deleteSelectedRow(this)");
+                cell2.appendChild(element2);
+
+                var cell3 = row.insertCell(2);
+                var element3 = document.createElement("input");
+                element3.type = "button";
+                element3.id = rowID;
+                element3.value = "View";
+                element3.setAttribute("onclick", "viewSelectedRow(document.getElementById('text' + this.id))");
+                cell3.appendChild(element3);             
+
+                // update the UI and save the to-do list
+                saveNameList();
+             
+                if (!appIsLoading) alert("Task Added Successfully.");
+            }
+
+            function viewSelectedRow(nameTextField)
+            {
+                alert("Hello " + nameTextField.value + "!");
+            }
+
+            function deleteSelectedRow(deleteButton)
+            {
+                var p = deleteButton.parentNode.parentNode;
+                p.parentNode.removeChild(p);
+                saveNameList();
+            }
+
+            function saveNameList()
+            {
+                var nameArray = {};
+                var checkBoxState = 0;
+                var textValue = "";
+             
+                var table = document.getElementById("dataTable");
+                var rowCount = table.rows.length;
+             
+                if (rowCount != 0)
+                {
+                    // loop through all rows of the table
+                    for(var i=0; i<rowCount; i++)
+                    {
+                        var row = table.rows[i];
+             
+                        // determine the state of the checkbox
+                        var chkbox = row.cells[0].childNodes[0];
+                        if(null != chkbox && true == chkbox.checked)
+                        {
+                            checkBoxState = 1;
+                        }
+                        else
+                        {
+                            checkBoxState= 0;
+                        }
+             
+                        // retrieve the content of the to-do
+                        var textbox = row.cells[0].childNodes[0];
+                        textValue = textbox.value;
+             
+                        // populate the array
+                        nameArray["row" + i] =
+                        {
+                            check : checkBoxState,
+                            text : textValue
+                        };
+                    }
+                }
+                else
+                {
+                    nameArray = null;
+                }
+             
+                // use the local storage API to persist the data as JSON
+                window.localStorage.setItem("nameList", JSON.stringify(nameArray));
+            }
+
+            function loadNameList()
+            {
+                // use the local storage API load the JSON formatted to-do list, and decode it
+                var theList = JSON.parse(window.localStorage.getItem("nameList"));
+             
+                if (null == theList || theList == "null")
+                {
+                    deleteAllRows();
+                }
+                else
+                {
+                    var count = 0;
+                    for (var obj in theList)
+                    {
+                        count++;
+                    }
+             
+                    // remove any existing rows from the table
+                    deleteAllRows();
+             
+                    // loop through the to-dos
+                    for(var i = 0; i < count; i++)
+                    {
+                        // adding a row to the table for each one
+                        addTableRow(theList["row" + i], true);
+                    }
+                }
+            }
+
+            function deleteAllRows()
+            {
+                var table = document.getElementById("dataTable");
+                var rowCount = table.rows.length;
+             
+                // loop through all rows of the table
+                for(var i = 0; i < rowCount; i++)
+                {
+                    // delete the row
+                    table.deleteRow(i);
+                    rowCount--;
+                    i--;
+                }
+             
+                // save the to-do list
+                saveNameList();
+            }
+        </script>
+    </head>
+    <body onload="loadNameList()">
+        <input type="button" value="Add new Name ?" onclick="createNewName()"/>
+        <br/><br/>
+        <table id="dataTable" width="100%" border="1">
+         
+        </table>
+
+    </body>
+</html>
