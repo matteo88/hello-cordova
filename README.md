@@ -1,29 +1,41 @@
-# hello-cordova
+# QUICKSTART
 
-## REQUISITES
+## PREREQUISITES
 
-[Java >= 1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html) or Openjdk 7 (see your linux distribution package)
+Install Openjdk 7:
+```
+ # apt-get install openjdk-7-jdk
+```
+Install Android sdk and tools:
 
-[Android-sdk >= API 19](http://developer.android.com/sdk/installing/index.html)
+  * Download [Android-sdk](http://developer.android.com/sdk/index.html#Other)
 
-[Node](https://nodejs.org/)
-
-[Apache Cordova](http://cordova.apache.org)
-
-Then:
+Extract into your home, then:
 
 ```
-npm isntall [-g] phonegap
+cd ~/android-sdk-linux
+./tools/android
 ```
+The android sdk manager will open.
+From the mangaer, install:
 
+  * (at least) Android API 19
+  * android sdk tools
+  * android sdk build-tools 19.1
+  * android sdk build-tools 20
+
+Install node:
+
+```
+# npm isntall -g phonegap
+```
 ## BUILD
 
-Set path for android sdk (Android and tools: API 19 nedeed)
+Set path for android sdk
 
 ```
-PATH=$PATH:~/android-sdk/android-sdk-linux/platform-tools:~/android-sdk/android-sdk-linux/tools
-```
-```
+PATH=$PATH:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools
+
 phonegap -V build android
 ```
 
@@ -42,3 +54,4 @@ otherwise:
 ```
 phonegap run android --device=<device-code-here>
 ```
+           
