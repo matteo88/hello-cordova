@@ -14,7 +14,7 @@ Create a symlink to the node executable:
 $ sudo ln -s /usr/bin/nodejs /usr/bin/node
 ```
 
-Download Android [SDK tools](http://developer.android.com/sdk/index.html#Other)(not *Android Studio Packages*) 
+Download Android [SDK tools](http://developer.android.com/sdk/index.html#Other) (not *Android Studio Packages*) 
 
 Extract into your home:
 
