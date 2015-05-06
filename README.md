@@ -1,35 +1,52 @@
 # QUICKSTART
 
-## PREREQUISITES
+## Prerequisites
 
-Install Openjdk 7:
+On Debian/Ubuntu, install OpenJDK 7 and NPM:
+
 ```
- # apt-get install openjdk-7-jdk
+sudo apt-get install openjdk-7-jdk npm
 ```
+
+Crete a symlink to the node executable:
+
+```
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+```
+
 Install Android sdk and tools:
 
   * Download [Android-sdk](http://developer.android.com/sdk/index.html#Other)
 
-Extract into your home, then:
+Extract into your home:
 
 ```
-cd ~/android-sdk-linux
+cd ~
+tar xzf android-sdk_r24.2-linux.tgz
+```
+
+Then do:
+
+```
+cd android-sdk-linux
 ./tools/android
 ```
-The android sdk manager will open.
-From the mangaer, install:
+
+The android sdk manager will open. From it, install:
 
   * (at least) Android API 19
   * android sdk tools
   * android sdk build-tools 19.1
   * android sdk build-tools 20
 
-Install node:
+
+Install phonegap:
 
 ```
-# npm isntall -g phonegap
+npm install -g phonegap
 ```
-## BUILD
+
+## Build
 
 Set path for android sdk
 
@@ -39,7 +56,7 @@ PATH=$PATH:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools
 phonegap -V build android
 ```
 
-## INSTALL
+## Install
 
 Intall on device:
 
